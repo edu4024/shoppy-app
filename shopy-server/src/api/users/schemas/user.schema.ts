@@ -1,4 +1,5 @@
 import { Schema } from 'mongoose';
+import { hash } from 'bcrypt';
 
 export const UserSchema = new Schema(
   {
@@ -29,3 +30,8 @@ export const UserSchema = new Schema(
     timestamps: true,
   },
 );
+
+UserSchema.pre('save', async function (next) {
+  this.password = await hash(this.password, process.env.SALT);
+  next();
+});

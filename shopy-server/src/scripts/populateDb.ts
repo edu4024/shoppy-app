@@ -9,8 +9,6 @@ async function main() {
   const [user] = await populateUsers();
   await populateProducts(user._id);
   console.log('The database has been populated successfully');
-  console.log('Close connection');
-  await mongoose.connection.close();
 }
 
 const connect = async () => {
@@ -26,7 +24,7 @@ const populateUsers = async () => {
     const userModel = mongoose.model('USER', UserSchema);
     return userModel.create(users);
   } catch (err) {
-    console.error('An error occurred while attempting to create user:', err,);
+    console.error('An error occurred while attempting to create user:', err);
   }
 };
 
@@ -39,13 +37,18 @@ const populateProducts = async (userId) => {
     });
     return productModel.create(mapProducts);
   } catch (err) {
-    console.error('An error occurred while attempting to create user:', err,);
+    console.error('An error occurred while attempting to create user:', err);
   }
 };
 
-main().catch((err) => {
-  console.error(
-    'An error occurred while attempting to populate the database:',
-    err,
-  );
-});
+main()
+  .catch((err) => {
+    console.error(
+      'An error occurred while attempting to populate the database:',
+      err,
+    );
+  })
+  .finally(async () => {
+    console.log('Close connection');
+    await mongoose.connection.close();
+  });

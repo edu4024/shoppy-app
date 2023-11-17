@@ -1,4 +1,5 @@
-import { Schema, Types } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
+import { UserSchema } from '../../users/schemas/user.schema';
 
 export const ProductSchema = new Schema(
   {
@@ -29,3 +30,12 @@ export const ProductSchema = new Schema(
     timestamps: true,
   },
 );
+
+ProductSchema.pre('save', async function (next) {
+  const userModel = model('USER', UserSchema);
+  const user = await userModel.findById(this.userId);
+  if (user) {
+    next();
+  }
+  next(new Error('Invalid user'));
+});
