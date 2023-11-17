@@ -1,0 +1,102 @@
+export const users = [
+  {
+    email: 'random-user@gmail.com',
+    password: '123456',
+    firstName: 'user',
+    lastName: 'test',
+  },
+];
+
+export const products = [
+  {
+    name: 'test-product-0',
+    price: 10,
+    currency: 'USD',
+    quantity: 1,
+    userId: undefined,
+  },
+  {
+    name: 'test-product-1',
+    price: 20,
+    currency: 'USD',
+    quantity: 1,
+    userId: undefined,
+  },
+  {
+    name: 'test-product-2',
+    price: 30,
+    currency: 'USD',
+    quantity: 1,
+    userId: undefined,
+  },
+  {
+    name: 'test-product-3',
+    price: 40,
+    currency: 'USD',
+    quantity: 1,
+    userId: undefined,
+  },
+  {
+    name: 'test-product-4',
+    price: 50,
+    currency: 'USD',
+    quantity: 1,
+    userId: undefined,
+  },
+  {
+    name: 'test-product-5',
+    price: 60,
+    currency: 'USD',
+    quantity: 1,
+    userId: undefined,
+  },
+  {
+    name: 'test-product-6',
+    price: 50,
+    currency: 'USD',
+    quantity: 1,
+    userId: undefined,
+  },
+  {
+    name: 'test-product-7',
+    price: 40,
+    currency: 'USD',
+    quantity: 1,
+    userId: undefined,
+  },
+  {
+    name: 'test-product-8',
+    price: 30,
+    currency: 'USD',
+    quantity: 1,
+    userId: undefined,
+  },
+  {
+    name: 'test-product-9',
+    price: 20,
+    currency: 'USD',
+    quantity: 1,
+    userId: undefined,
+  },
+  {
+    name: 'test-product-10',
+    price: 10,
+    currency: 'USD',
+    quantity: 1,
+    userId: undefined,
+  },
+  {
+    name: 'test-product-11',
+    price: 1,
+    currency: 'USD',
+    quantity: 1,
+    userId: undefined,
+  },
+  {
+    name: 'test-product-12',
+    price: 15,
+    currency: 'USD',
+    quantity: 1,
+    userId: undefined,
+  },
+];
