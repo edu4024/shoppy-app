@@ -12,17 +12,13 @@ import {
   Query,
   UploadedFile,
   UseInterceptors,
+  Param,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create.product.dto';
 import { UserId } from '../../decorators/getUserId.decorator';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiConsumes,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FindProductByIdDto, FindProductDto } from './dto/find.product.dto';
 
 @Controller('products')
@@ -92,9 +88,9 @@ export class ProductController {
     }
   }
 
-  @Get('/:id')
+  @Get('/:_id')
   @HttpCode(200)
-  async findById(@Query() param: FindProductByIdDto) {
+  async findById(@Param() param: FindProductByIdDto) {
     try {
       return this.productService.find(param);
     } catch (err) {
@@ -119,7 +115,7 @@ export class ProductController {
       if (Boolean(JSON.parse(my))) {
         criteria.userId = { $eq: userId };
       }
-      return await this.productService.findAll(criteria);
+      return await this.productService.getProducts(criteria);
     } catch (err) {
       throw new HttpException(
         {
@@ -134,9 +130,9 @@ export class ProductController {
     }
   }
 
-  @Delete('/:id')
+  @Delete('/:_id')
   @HttpCode(204)
-  async remove(@Query() param: FindProductByIdDto) {
+  async remove(@Param() param: FindProductByIdDto) {
     try {
       return this.productService.remove(param);
     } catch (err) {
@@ -153,15 +149,18 @@ export class ProductController {
     }
   }
 
-  @Put('/:id')
+  @Put('/:_id')
   @HttpCode(200)
-  @UseInterceptors(FileInterceptor(''))
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('application/json', 'multipart/form-data')
+  @ApiBody({ type: CreateProductDto })
   async update(
-    @Query() param: FindProductByIdDto,
+    @Param() param: FindProductByIdDto,
     @Body() createProductDto: CreateProductDto,
+    @UploadedFile() file: Express.Multer.File,
   ) {
     try {
-      return this.productService.findOneAndUpdate(param, createProductDto);
+      return this.productService.updateProduct(param, createProductDto, file);
     } catch (err) {
       throw new HttpException(
         {

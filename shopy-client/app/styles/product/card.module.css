@@ -1,0 +1,22 @@
+.link {
+   text-decoration: none;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.hidden {
+   display: none;
+}
+
+.edit {
+   position: absolute;
+   margin: 15px;
+}
+
+.delete {
+   position: absolute;
+   margin: 15px;
+   cursor: pointer;
+   top: 0;
+   right: 0;
+}

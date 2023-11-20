@@ -34,4 +34,23 @@ export class ProductService extends BaseService<ProductInterface> {
     const filePath = await this.storageProvider.upload(file, param._id);
     return super.findOneAndUpdate(param, { imageUrl: filePath });
   }
+
+  async getProducts(criteria): Promise<any> {
+    const { skip, limit, sort = { createdAt: -1 }, ...query } = criteria;
+    return super.findAll({ skip, limit, sort, ...query });
+  }
+
+  async updateProduct(
+    userId: { _id: string },
+    createProductDto: CreateProductDto,
+    file: Express.Multer.File,
+  ): Promise<ProductInterface> {
+    if (file) {
+      createProductDto.imageUrl = await this.storageProvider.upload(
+        file,
+        userId._id,
+      );
+    }
+    return super.findOneAndUpdate(userId, createProductDto);
+  }
 }

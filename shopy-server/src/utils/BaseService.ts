@@ -15,7 +15,7 @@ export abstract class BaseService<T> {
   }
 
   async findAll(criteria: any): Promise<any> {
-    const { skip, limit, sort = { createdAt: 1 }, ...query } = criteria;
+    const { skip, limit, sort = {}, ...query } = criteria;
     const docs = await this.model
       .find({ ...query })
       .sort(sort)

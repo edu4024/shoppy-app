@@ -6,19 +6,36 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "dependencies": {
+    "@mantine/core": "^7.2.2",
+    "@mantine/form": "^7.2.2",
+    "@mantine/hooks": "^7.2.2",
+    "@tabler/icons-react": "^2.40.0",
+    "axios": "^1.6.2",
+    "clsx": "^2.0.0",
+    "next": "14.0.3",
+    "next-auth": "^5.0.0-beta.3",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.0.3"
+    "use-debounce": "^10.0.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@tailwindcss/forms": "^0.5.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "autoprefixer": "^10.4.16",
     "eslint": "^8",
-    "eslint-config-next": "14.0.3"
+    "eslint-config-next": "14.0.3",
+    "postcss": "^8.4.31",
+    "postcss-preset-mantine": "^1.11.0",
+    "postcss-simple-vars": "^7.0.1",
+    "tailwindcss": "^3.3.5",
+    "typescript": "^4.7.4",
+    "zod": "^3.22.4"
   }
 }

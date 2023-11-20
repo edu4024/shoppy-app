@@ -6,7 +6,6 @@ export const ProductSchema = new Schema(
     name: {
       type: String,
       required: true,
-      index: true,
     },
     price: {
       type: Number,
@@ -20,7 +19,11 @@ export const ProductSchema = new Schema(
       type: Number,
       required: true,
     },
-    userId: { type: Types.ObjectId, ref: 'Users' },
+    userId: {
+      type: Types.ObjectId,
+      ref: 'Users',
+      index: true,
+    },
     imageUrl: {
       type: String,
       required: false,
@@ -30,12 +33,15 @@ export const ProductSchema = new Schema(
     timestamps: true,
   },
 );
+ProductSchema.index({ name: 'text' });
 
 ProductSchema.pre('save', async function (next) {
-  const userModel = model('USER', UserSchema);
-  const user = await userModel.findById(this.userId);
-  if (user) {
+  const userModel = this.model('USERS');
+  try {
+    await userModel.findById(this.userId);
     next();
+  } catch (err) {
+    console.log(err);
+    next(new Error('Invalid user'));
   }
-  next(new Error('Invalid user'));
 });
