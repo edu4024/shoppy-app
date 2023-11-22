@@ -6,7 +6,9 @@ import CartTable from '@/app/ui/cart/cartTable';
 export default function CartList ({ docs }: any) {
   const [cart] = useCart();
   const setData = () => {
-    if (docs?.length) return docs[0].products;
+    if (docs?.length) {
+      return docs.reduce((acc, item) => [...acc, ...item.products], []);
+    }
     if (cart?.length) {
       return cart.reduce((acc: any, val) => {
         if (val?.product) {
