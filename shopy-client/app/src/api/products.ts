@@ -1,3 +1,4 @@
+'use server';
 import axios from '@/app/src/lib/axios';
 import { ProductDto, ProductResponseDto } from '@/app/src/dto/products.dto';
 import { ITEMS_PER_PAGE } from '@/app/src/lib/constant';
@@ -32,7 +33,6 @@ export const getProductList = async (
   if (quantity) {
     params.quantity = { $gt: 0 };
   }
-
   return (await axios.get('/products', { params })).data;
 };
 
@@ -58,3 +58,12 @@ export const updateProduct = async (_id: string, productData: FormData) => {
   };
   return axios.put(`/products/${_id}`, productData, config);
 };
+
+export const checkOut = async (productData: FormData) => {
+  return axios.post('/products/checkout', productData);
+};
+
+export const getHistory = async () => {
+  return (await axios.get('/history')).data;
+};
+

@@ -1,5 +1,4 @@
-import { Schema, Types, model } from 'mongoose';
-import { UserSchema } from '../../users/schemas/user.schema';
+import { Schema, Types } from 'mongoose';
 
 export const ProductSchema = new Schema(
   {
@@ -10,6 +9,7 @@ export const ProductSchema = new Schema(
     price: {
       type: Number,
       required: true,
+      min: 0,
     },
     currency: {
       type: String,
@@ -18,6 +18,7 @@ export const ProductSchema = new Schema(
     quantity: {
       type: Number,
       required: true,
+      min: 0,
     },
     userId: {
       type: Types.ObjectId,

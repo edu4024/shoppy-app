@@ -8,7 +8,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <head>
       <ColorSchemeScript />
     </head>
-    <body style={{overflowY: 'hidden'}}>
+    <body>
     <MantineProvider>{children}</MantineProvider>
     </body>
     </html>

@@ -1,5 +1,7 @@
+'use client';
 import { Card, Image, Text, Group, Button} from '@mantine/core';
 import { ProductDto } from '@/app/src/dto/products.dto';
+import { useCart } from '@/app/src/providers/CartProvider';
 
 enum Currency {
   USD = '$',
@@ -7,7 +9,17 @@ enum Currency {
 }
 
 export default function ProductCard({ product }: ProductDto) {
+  const [cart, setCart] = useCart();
   const { name, price, currency, imageUrl = '/Product.png' } = product;
+  const addToCart = (product) => {
+    if (!cart.length) {
+      setCart([{ product }]);
+    }
+    const checkProduct = cart.find(el => (el.product._id === product._id));
+    if (!checkProduct) setCart([...cart, { product }]);
+    return;
+  };
+
   return (
     <Card withBorder shadow="sm" padding="lg" radius="md">
       <Card.Section>
@@ -28,7 +40,11 @@ export default function ProductCard({ product }: ProductDto) {
 
 
       <Group mt="xs">
-        <Button radius="md" style={{ flex: 1 }}>
+        <Button
+          radius="md"
+          style={{ flex: 1 }}
+          onClick={() => addToCart(product)}
+        >
           Add to Cart
         </Button>
       </Group>

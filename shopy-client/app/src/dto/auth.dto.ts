@@ -7,5 +7,8 @@ export interface LoginResponseDto {
   token: string;
 }
 
-export type SingInFormDto = LoginFormDto & { fullName: string };
+export type SingInFormDto = LoginFormDto & {
+  firstName: string
+  lastName: string
+};
 export type RegisterResponseDto = LoginResponseDto;

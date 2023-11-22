@@ -40,3 +40,22 @@ export class CreateProductDto {
     format: 'binary';
   };
 }
+export class ProductDto extends CreateProductDto {
+  @ApiProperty({
+    default: '655cedfd17b68c6090f9b88b',
+  })
+  @IsString()
+  _id: string;
+
+  @ApiProperty({
+    default: '6554e7e69941b31b3b1b2755',
+  })
+  @IsString()
+  userId: string;
+
+  @ApiProperty({
+    default: 'path to image',
+  })
+  @IsString()
+  imageUrl: string;
+}

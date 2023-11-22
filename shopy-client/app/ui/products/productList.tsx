@@ -23,7 +23,7 @@ export default function ProductList({ products }: [ProductDto]) {
                href={`/dashboard/products/${1}`}
                className={classes.link}
              >
-               <Image src="/Plus.svg" alt="add product" h={50} w={50} />
+               <Image src="/Add.svg" alt="add product" h={50} w={50} />
                <Text fw={700}>New Product</Text>
              </Link>
            </Group>

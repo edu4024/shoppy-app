@@ -16,7 +16,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductService } from './product.service';
-import { CreateProductDto } from './dto/create.product.dto';
+import { CreateProductDto, ProductDto } from './dto/create.product.dto';
 import { UserId } from '../../decorators/getUserId.decorator';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FindProductByIdDto, FindProductDto } from './dto/find.product.dto';
@@ -168,6 +168,27 @@ export class ProductController {
           error: err.message,
         },
         HttpStatus.NOT_FOUND,
+        {
+          cause: err,
+        },
+      );
+    }
+  }
+
+  @Post('/checkout')
+  @HttpCode(200)
+  @ApiConsumes('application/json')
+  @ApiBody({ type: [ProductDto] })
+  async checkout(@Body() cartProducts: ProductDto[], @UserId() userId) {
+    try {
+      return this.productService.checkout(cartProducts, userId);
+    } catch (err) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: err.message,
+        },
+        HttpStatus.BAD_REQUEST,
         {
           cause: err,
         },

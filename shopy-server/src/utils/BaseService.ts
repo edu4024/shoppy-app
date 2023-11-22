@@ -15,7 +15,7 @@ export abstract class BaseService<T> {
   }
 
   async findAll(criteria: any): Promise<any> {
-    const { skip, limit, sort = {}, ...query } = criteria;
+    const { skip = 0, limit = 6, sort = {}, ...query } = criteria;
     const docs = await this.model
       .find({ ...query })
       .sort(sort)
@@ -28,7 +28,7 @@ export abstract class BaseService<T> {
   async findOneAndUpdate(
     filter: any,
     update: any,
-    options = { new: true },
+    options: object = { new: true },
   ): Promise<any> {
     return this.model.findOneAndUpdate(filter, update, options);
   }

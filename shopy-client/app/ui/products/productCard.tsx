@@ -47,13 +47,6 @@ export default function ProductCard({ product }: ProductDto) {
           {Currency[currency]} {price}
         </Text>
       </Group>
-
-
-      {/*<Group mt="xs">
-        <Button radius="md" style={{ flex: 1 }}>
-          Add to Cart
-        </Button>
-      </Group>*/}
     </Card>
   );
 }

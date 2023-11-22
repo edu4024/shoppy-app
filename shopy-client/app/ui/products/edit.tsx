@@ -97,8 +97,8 @@ export default function ProductEdit (
             size="lg"
             radius="md"
             hideControls
-            label="Count"
-            placeholder="Enter count of the product"
+            label="Quantity"
+            placeholder="Enter quantity of the product"
             defaultValue={quantity}
             onChange={(e) => {
               setQuantity(e);

@@ -1,0 +1,21 @@
+.link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    min-width: 50px;
+    min-height: 40px;
+    font-weight: 600;
+    font-size: 20px;
+    color: #A3A3A3;
+}
+
+.active {
+    color: var(--mantine-color-black);
+}
+
+.linkColor {
+    align-items: center;
+    text-decoration: none;
+    color: white;
+}

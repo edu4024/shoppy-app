@@ -7,10 +7,11 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CriteriaDto } from './dto/criteria.dto';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserId } from '../../decorators/getUserId.decorator';
 
 @Controller('users')
+@ApiTags('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 

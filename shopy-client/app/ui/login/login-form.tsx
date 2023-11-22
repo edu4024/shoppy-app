@@ -13,7 +13,8 @@ import {
 } from '@mantine/core';
 import Image from 'next/image';
 import classes from '@/app/styles/login/login.module.css';
-import { login, signUp } from '@/app/src/lib/actions/auth.action';
+import { login } from '@/app/src/lib/actions/auth.action';
+import { SingInFormDto } from '@/app/src/dto/auth.dto';
 
 
 export default function LoginForm() {
@@ -32,11 +33,8 @@ export default function LoginForm() {
     }
   });
 
-  const submitForm = async (formData: FormData)=> {
-    if (type === 'login') {
-      return login(formData);
-    }
-    return signUp(formData);
+  const submitForm = async (formData: SingInFormDto)=> {
+    return login(formData);
   };
 
   return (

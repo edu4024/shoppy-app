@@ -35,10 +35,9 @@ export default function Filter() {
       params.set('page', '1');
       replace(`${pathname}?${params.toString()}`);
     }
-
   });
   return (
-    <nav className={classes.navbar}>
+    <main className={classes.wrapper}>
       <Card withBorder radius="md" >
         <Group justify="space-between">
           <Text fw={700}>Filters</Text>
@@ -79,6 +78,6 @@ export default function Filter() {
             />
         </Group>
       </Card>
-    </nav>
+    </main>
   );
 }

@@ -4,10 +4,12 @@ import { ProductController } from './product.controller';
 import { ProductSchema } from './schemas/product.schema';
 import { ProductService } from './product.service';
 import { FirebaseStorageProvider } from '../../providers/firebase-storage.provider';
+import { HistoryModule } from '../history/history.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'PRODUCTS', schema: ProductSchema }]),
+    HistoryModule,
   ],
   controllers: [ProductController],
   providers: [ProductService, FirebaseStorageProvider],

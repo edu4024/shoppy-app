@@ -1,10 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BaseService } from '../../utils/BaseService';
 import { ProductInterface } from './interfaces/product.interface';
-import { CreateProductDto } from './dto/create.product.dto';
+import { CreateProductDto, ProductDto } from './dto/create.product.dto';
 import { FirebaseStorageProvider } from '../../providers/firebase-storage.provider';
+import { InjectConnection } from '@nestjs/mongoose';
+import * as mongoose from 'mongoose';
+import { HistoryService } from '../history/history.service';
 
 @Injectable()
 export class ProductService extends BaseService<ProductInterface> {
@@ -12,6 +15,9 @@ export class ProductService extends BaseService<ProductInterface> {
     @InjectModel('PRODUCTS')
     private readonly productModel: Model<ProductInterface>,
     private storageProvider: FirebaseStorageProvider,
+    @InjectConnection() private readonly connection: mongoose.Connection,
+    @Inject(HistoryService)
+    private readonly historyService: HistoryService,
   ) {
     super(productModel);
   }
@@ -52,5 +58,55 @@ export class ProductService extends BaseService<ProductInterface> {
       );
     }
     return super.findOneAndUpdate(userId, createProductDto);
+  }
+
+  async checkout(cartProducts: ProductDto[], userId: { _id: string }) {
+    const transactionSession = await this.connection.startSession();
+    transactionSession.startTransaction();
+    try {
+      const checkOrder = await Promise.allSettled(
+        cartProducts.map(async (cartProduct: ProductDto) => {
+          return this.productModel.findOneAndUpdate(
+            {
+              _id: cartProduct._id,
+              quantity: { $gte: cartProduct.quantity },
+            },
+            {
+              $inc: {
+                quantity: -cartProduct.quantity,
+              },
+            },
+            { new: true },
+          );
+        }),
+      );
+
+      checkOrder.forEach((item: any) => {
+        if (!item.value) throw new Error('Transaction error');
+      });
+
+      const date = new Date().toISOString();
+      const products = cartProducts.map((product: CreateProductDto) => {
+        const { name, price, imageUrl } = product;
+        return {
+          name,
+          price,
+          imageUrl,
+          date,
+        };
+      });
+      await this.historyService.findOneAndUpdate(
+        { userId },
+        { $push: { products: products } },
+        { upsert: true, new: true },
+      );
+
+      await transactionSession.commitTransaction();
+    } catch (error) {
+      await transactionSession.abortTransaction();
+      throw error;
+    } finally {
+      await transactionSession.endSession();
+    }
   }
 }
