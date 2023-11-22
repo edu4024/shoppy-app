@@ -19,7 +19,7 @@ export class HistoryController {
   @ApiBearerAuth()
   async find(@UserId() userId: string) {
     try {
-      return await this.historyService.findAll({ userId: userId });
+      return await this.historyService.findAll({ userId: { $eq: userId } });
     } catch (err) {
       throw new HttpException(
         {

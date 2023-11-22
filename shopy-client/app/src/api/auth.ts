@@ -8,11 +8,19 @@ import {
 export const login = async (
   values: LoginFormDto
 ): Promise<LoginResponseDto> => {
-  return (await axios.post('/auth/login', values)).data;
+  try {
+    return (await axios.post('/auth/login', values)).data;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const signUp = async (
   values: SingInFormDto
 ): Promise<RegisterResponseDto> => {
-  return (await axios.post('/auth/signin', values)).data;
+  try {
+    return (await axios.post('/auth/signin', values)).data;
+  } catch (err) {
+    console.log(err);
+  }
 };

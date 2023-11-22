@@ -60,7 +60,7 @@ export class ProductService extends BaseService<ProductInterface> {
     return super.findOneAndUpdate(userId, createProductDto);
   }
 
-  async checkout(cartProducts: ProductDto[], userId: { _id: string }) {
+  async checkout(cartProducts: ProductDto[], userId: string) {
     const transactionSession = await this.connection.startSession();
     transactionSession.startTransaction();
     try {
@@ -95,11 +95,7 @@ export class ProductService extends BaseService<ProductInterface> {
           date,
         };
       });
-      await this.historyService.findOneAndUpdate(
-        { userId },
-        { $push: { products: products } },
-        { upsert: true, new: true },
-      );
+      await this.historyService.create({ userId: userId, products });
 
       await transactionSession.commitTransaction();
     } catch (error) {

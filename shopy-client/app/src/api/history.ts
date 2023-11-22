@@ -2,5 +2,9 @@
 import axios from '@/app/src/lib/axios';
 
 export const getHistory = async () => {
-  return (await axios.get('/history')).data;
+  try {
+    return (await axios.get('/history')).data;
+  } catch (err) {
+    console.log(err);
+  }
 };

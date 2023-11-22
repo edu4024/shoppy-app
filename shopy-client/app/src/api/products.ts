@@ -3,6 +3,11 @@ import axios from '@/app/src/lib/axios';
 import { ProductDto, ProductResponseDto } from '@/app/src/dto/products.dto';
 import { ITEMS_PER_PAGE } from '@/app/src/lib/constant';
 
+/*
+* TODO:
+*  Handle error
+* */
+
 export const getProductList = async (
   my: boolean,
   query: any,
@@ -10,57 +15,82 @@ export const getProductList = async (
   limit?: number,
   filters?: [0, 0],
   quantity?: object
-): Promise<ProductResponseDto> => {
-  const params: {
-    my: boolean,
-    skip: number,
-    limit: number,
-    $text?: object,
-    price?: object,
-    quantity?: object
-  } = {
-    my,
-    skip: page,
-    limit: limit || ITEMS_PER_PAGE
+): Promise<ProductResponseDto | undefined> => {
+  try {
+    const params: {
+      my: boolean,
+      skip: number,
+      limit: number,
+      $text?: object,
+      price?: object,
+      quantity?: object
+    } = {
+      my,
+      skip: page,
+      limit: limit || ITEMS_PER_PAGE
     };
-  if (query.length) {
-    params.$text = { $search: query };
+    if (query.length) {
+      params.$text = { $search: query };
+    }
+    if (filters && filters[0]) {
+      const [from, to] = filters;
+      params.price = { $gte :  from, $lte : to };
+    }
+    if (quantity) {
+      params.quantity = { $gt: 0 };
+    }
+    return (await axios.get('/products', { params })).data;
+  } catch (err: any) {
+    console.log(err.message);
   }
-  if (filters && filters[0]) {
-    const [from, to] = filters;
-    params.price = { $gte :  from, $lte : to };
-  }
-  if (quantity) {
-    params.quantity = { $gt: 0 };
-  }
-  return (await axios.get('/products', { params })).data;
+
 };
 
 export const createProduct = async (productData: FormData) => {
-  const config = {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  };
+  try {
+    const config = {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    };
     return axios.post('/products', productData, config);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const deleteProduct = async (_id: string) => {
-  return (await axios.delete(`/products/${_id}`));
+  try {
+    return (await axios.delete(`/products/${_id}`));
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-export const getProduct = async (_id: string): Promise<ProductDto> => {
-  const [product] = (await axios.get(`/products/${_id}`)).data;
-  return product;
+export const getProduct = async (_id: string): Promise<ProductDto | undefined> => {
+  try {
+    const [product] = (await axios.get(`/products/${_id}`)).data;
+    return product;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const updateProduct = async (_id: string, productData: FormData) => {
-  const config = {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  };
-  return axios.put(`/products/${_id}`, productData, config);
+  try {
+    const config = {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    };
+    return axios.put(`/products/${_id}`, productData, config);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const checkOut = async (productData: FormData) => {
-  return axios.post('/products/checkout', productData);
+  try {
+    return axios.post('/products/checkout', productData);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const getHistory = async () => {

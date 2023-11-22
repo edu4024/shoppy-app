@@ -1,5 +1,5 @@
 'use client';
-import { Container, Flex } from '@mantine/core';
+import { Container } from '@mantine/core';
 import { useCart } from '@/app/src/providers/CartProvider';
 import CartTable from '@/app/ui/cart/cartTable';
 
