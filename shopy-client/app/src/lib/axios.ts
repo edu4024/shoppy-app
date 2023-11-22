@@ -1,6 +1,7 @@
+'use server';
 import axios from 'axios';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { signOut } from '@/auth';
 
 axios.defaults.baseURL = process.env.API_URL;
 
@@ -11,11 +12,11 @@ axios.interceptors.request.use((config) => {
   return config;
 });
 
-axios.interceptors.response.use(response => {
+axios.interceptors.response.use(async (response) => {
   return response;
-}, error => {
+}, async (error) => {
   if (error.response.status === 401) {
-    redirect('/login');
+    await signOut({ redirectTo: '/login' });
   }
   return error;
 });

@@ -1,4 +1,5 @@
 import type { NextAuthConfig } from 'next-auth';
+import { cookies } from 'next/headers';
 
 export const authConfig = {
   providers: [],
@@ -7,7 +8,8 @@ export const authConfig = {
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth;
+      const token = cookies().get('_token')?.value;
+      const isLoggedIn = !!auth && token;
       const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
       if (isOnDashboard) {
         return isLoggedIn;
