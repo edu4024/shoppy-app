@@ -1,26 +1,28 @@
 import { IsNumber, IsString, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { constants } from '../../../contants/constants';
+
 export class CreateProductDto {
   @ApiProperty({
-    default: 'Sony PlayStation 5',
+    default: constants.SWAGGER_PRODUCT_NAME_DEFAULT,
   })
   @IsString()
   name: string;
 
   @ApiProperty({
-    default: '15',
+    default: constants.SWAGGER_PRODUCT_PRICE_DEFAULT,
   })
   @IsNumber()
   price: number;
 
   @ApiProperty({
-    default: 'USD',
+    default: constants.SWAGGER_PRODUCT_CURRENCY_DEFAULT,
   })
   @IsString()
   currency: string;
 
   @ApiProperty({
-    default: 10,
+    default: constants.SWAGGER_PRODUCT_QUANTITY_DEFAULT,
   })
   @IsNumber()
   quantity: number;
@@ -42,19 +44,19 @@ export class CreateProductDto {
 }
 export class ProductDto extends CreateProductDto {
   @ApiProperty({
-    default: '655cedfd17b68c6090f9b88b',
+    default: constants.SWAGGER_PRODUCT_ID_DEFAULT,
   })
   @IsString()
   _id: string;
 
   @ApiProperty({
-    default: '6554e7e69941b31b3b1b2755',
+    default: constants.SWAGGER_PRODUCT_USER_ID_DEFAULT,
   })
   @IsString()
   userId: string;
 
   @ApiProperty({
-    default: 'path to image',
+    default: constants.SWAGGER_PRODUCT_IMAGE_URL_DEFAULT,
   })
   @IsString()
   imageUrl: string;

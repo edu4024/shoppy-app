@@ -1,4 +1,5 @@
 import { Model } from 'mongoose';
+import { constants } from '../contants/constants';
 
 export abstract class BaseService<T> {
   private model: Model<T>;
@@ -6,34 +7,43 @@ export abstract class BaseService<T> {
     this.model = model;
   }
 
-  async find(criteria: object): Promise<any> {
+  async find(criteria: object): Promise<T[]> {
     return this.model.find({ ...criteria });
   }
 
-  async create(body: any): Promise<any> {
+  async create(body: object): Promise<T> {
     return this.model.create(body);
   }
 
-  async findAll(criteria: any): Promise<any> {
-    const { skip = 0, limit = 6, sort = {}, ...query } = criteria;
+  async findAll(criteria: {
+    skip: number;
+    limit: number;
+    sort: string | { key: string } | [string];
+  }): Promise<object> {
+    const {
+      skip = constants.BASE_SERVICE_FIND_SKIP,
+      limit = constants.BASE_SERVICE_FIND_LIMIT,
+      sort = {},
+      ...query
+    } = criteria;
     const docs = await this.model
-      .find({ ...query })
+      .find(query)
       .sort(sort)
       .skip(Number(skip))
       .limit(Number(limit));
-    const count = await this.model.count({ ...query });
+    const count = await this.model.count(query);
     return { docs, count };
   }
 
   async findOneAndUpdate(
-    filter: any,
-    update: any,
+    filter: object,
+    update: object,
     options: object = { new: true },
-  ): Promise<any> {
+  ): Promise<T> {
     return this.model.findOneAndUpdate(filter, update, options);
   }
 
-  async remove(criteria: any): Promise<any> {
+  async remove(criteria: object): Promise<T> {
     return this.model.findOneAndRemove({ ...criteria });
   }
 }

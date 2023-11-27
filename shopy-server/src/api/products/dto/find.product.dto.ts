@@ -1,9 +1,10 @@
 import { IsNumber, IsString, IsObject, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { constants } from '../../../contants/constants';
 
 export class FindProductByIdDto {
   @ApiProperty({
-    default: '6555f948e22d7ccc516e34f5',
+    default: constants.SWAGGER_PRODUCT_ID_DEFAULT,
   })
   @IsString()
   _id: string;
@@ -11,28 +12,28 @@ export class FindProductByIdDto {
 
 export class FindProductDto {
   @ApiProperty({
-    default: false,
+    default: constants.SWAGGER_PRODUCT_IS_MY_DEFAULT,
   })
   @IsOptional()
   @IsString()
   my: string;
 
   @ApiProperty({
-    default: 0,
+    default: constants.BASE_SERVICE_FIND_SKIP,
   })
   @IsOptional()
   @IsNumber()
   skip?: number;
 
   @ApiProperty({
-    default: 5,
+    default: constants.BASE_SERVICE_FIND_LIMIT,
   })
   @IsOptional()
   @IsNumber()
   limit?: number;
 
   @ApiProperty({
-    default: { createdAt: 1 },
+    default: constants.BASE_SERVICE_FIND_SORT,
   })
   @IsOptional()
   @IsObject()

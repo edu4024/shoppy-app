@@ -36,12 +36,12 @@ export class ProductService extends BaseService<ProductInterface> {
     return super.create({ ...createProductDto, userId: userId });
   }
 
-  async updateImage(file, param): Promise<any> {
+  async updateImage(file, param): Promise<object> {
     const filePath = await this.storageProvider.upload(file, param._id);
     return super.findOneAndUpdate(param, { imageUrl: filePath });
   }
 
-  async getProducts(criteria): Promise<any> {
+  async getProducts(criteria): Promise<object> {
     const { skip, limit, sort = { createdAt: -1 }, ...query } = criteria;
     return super.findAll({ skip, limit, sort, ...query });
   }

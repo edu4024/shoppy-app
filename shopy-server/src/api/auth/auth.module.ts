@@ -10,6 +10,7 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthGuard } from './auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { constants } from '../../contants/constants';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { APP_GUARD } from '@nestjs/core';
         secret: configService.get<string>('JWT_SECRET'),
         global: true,
         signOptions: {
-          expiresIn: '1d',
+          expiresIn: constants.AUTH_TOKEN_EXPIRE,
         },
       }),
       inject: [ConfigService],

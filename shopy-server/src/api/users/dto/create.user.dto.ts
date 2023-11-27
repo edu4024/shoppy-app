@@ -5,21 +5,22 @@ import {
   MinLength,
   IsBoolean,
 } from 'class-validator';
+import { constants } from '../../../contants/constants';
 
 export class CreateUserDto {
   @IsEmail()
   email: string;
 
   @IsNotEmpty()
-  @MinLength(6)
+  @MinLength(constants.USER_PASS_MIN_LENGTH)
   password: string;
 
   @IsString()
-  @MinLength(1)
+  @MinLength(constants.USER_NAME_MIN_LENGTH)
   firstName: string;
 
   @IsString()
-  @MinLength(1)
+  @MinLength(constants.USER_NAME_MIN_LENGTH)
   lastName: string;
 
   @IsBoolean()
