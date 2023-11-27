@@ -33,7 +33,7 @@ export default function LoginForm() {
     }
   });
 
-  const submitForm = async (formData: SingInFormDto)=> {
+  const submitForm = (formData: SingInFormDto)=> {
     return login(formData);
   };
 

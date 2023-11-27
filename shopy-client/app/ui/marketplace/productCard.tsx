@@ -15,8 +15,9 @@ export default function ProductCard({ product }: ProductDto) {
     if (!cart.length) {
       setCart([{ product }]);
     }
-    const checkProduct = cart.find(el => (el.product._id === product._id));
-    if (!checkProduct) setCart([...cart, { product }]);
+    if (!cart.find(el => (el.product._id === product._id))) {
+      setCart([...cart, { product }]);
+    }
     return;
   };
 

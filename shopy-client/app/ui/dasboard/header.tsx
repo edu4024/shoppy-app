@@ -62,7 +62,7 @@ export default function Header() {
             width={35}
             height={35}
             alt="Logout image"
-            onClick={async () => logOut()}
+            onClick={() => logOut()}
           />
         </Group>
       </Container>
