@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BaseService } from '../../utils/BaseService';
 import { ProductInterface } from './interfaces/product.interface';
-import { CreateProductDto, ProductDto } from './dto/create.product.dto';
+import { CartProductDto, CreateProductDto } from './dto/create.product.dto';
 import { FirebaseStorageProvider } from '../../providers/firebase-storage.provider';
 import { InjectConnection } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
@@ -60,20 +60,20 @@ export class ProductService extends BaseService<ProductInterface> {
     return super.findOneAndUpdate(userId, createProductDto);
   }
 
-  async checkout(cartProducts: ProductDto[], userId: string) {
+  async checkout(cartProducts: CartProductDto[], userId: string) {
     const transactionSession = await this.connection.startSession();
     transactionSession.startTransaction();
     try {
       const checkOrder = await Promise.allSettled(
-        cartProducts.map(async (cartProduct: ProductDto) => {
+        cartProducts.map(async (cartProduct: CartProductDto) => {
           return this.productModel.findOneAndUpdate(
             {
               _id: cartProduct._id,
-              quantity: { $gte: cartProduct.quantity },
+              quantity: { $gte: cartProduct.desiredQuantity },
             },
             {
               $inc: {
-                quantity: -cartProduct.quantity,
+                quantity: -cartProduct.desiredQuantity,
               },
             },
             { new: true },
@@ -95,7 +95,15 @@ export class ProductService extends BaseService<ProductInterface> {
           date,
         };
       });
-      await this.historyService.create({ userId: userId, products });
+      await this.historyService.updateOne(
+        { userId: userId },
+        {
+          $push: { products },
+        },
+        {
+          upsert: true,
+        },
+      );
 
       await transactionSession.commitTransaction();
     } catch (error) {

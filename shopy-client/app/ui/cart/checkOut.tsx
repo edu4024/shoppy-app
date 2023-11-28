@@ -15,11 +15,11 @@ import { checkOut } from '@/app/src/lib/actions/products.action';
 export default function CheckOut() {
   const [cart, setCart] = useCart();
   const price = cart.reduce((acc: number, item: any) => {
-    return acc += item?.product?.price;
+    return acc += item?.price * item?.desiredQuantity;
   }, 0);
   const submit = () => {
-    const formData = cart.reduce((acc: any, val) => {
-      if (val?.product) return [...acc, val.product];
+    const formData = cart.reduce((acc: any, val: any) => {
+      if (val) return [...acc, val];
     }, []);
     checkOut(formData);
     setCart([]);

@@ -12,11 +12,12 @@ export default function ProductCard({ product }: ProductDto) {
   const [cart, setCart] = useCart();
   const { name, price, currency, imageUrl = '/Product.png' } = product;
   const addToCart = (product) => {
+    product.desiredQuantity = 1;
     if (!cart.length) {
-      setCart([{ product }]);
+      setCart([{ ...product }]);
     }
-    if (!cart.find(el => (el.product._id === product._id))) {
-      setCart([...cart, { product }]);
+    if (!cart.find(el => (el._id === product._id))) {
+      setCart([...cart, { ...product }]);
     }
     return;
   };

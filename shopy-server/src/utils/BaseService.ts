@@ -43,6 +43,14 @@ export abstract class BaseService<T> {
     return this.model.findOneAndUpdate(filter, update, options);
   }
 
+  async updateOne(
+    filter: object,
+    update: object,
+    options: object = { upsert: true },
+  ): Promise<object> {
+    return this.model.updateOne(filter, update, options);
+  }
+
   async remove(criteria: object): Promise<T> {
     return this.model.findOneAndRemove({ ...criteria });
   }

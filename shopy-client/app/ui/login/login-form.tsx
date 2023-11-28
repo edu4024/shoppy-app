@@ -55,6 +55,7 @@ export default function LoginForm() {
                 value={form.values.firstName}
                 onChange={(event) => form.setFieldValue('firstName', event.currentTarget.value)}
                 radius="md" />
+
                 <TextInput
                 label="Last name"
                 placeholder="Your last name"

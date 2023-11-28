@@ -35,7 +35,7 @@ export default function Filter() {
       params.set('page', '1');
       replace(`${pathname}?${params.toString()}`);
     }
-  });
+  }, [to, from]);
   return (
     <main className={classes.wrapper}>
       <Card withBorder radius="md" >

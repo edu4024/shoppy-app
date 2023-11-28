@@ -5,7 +5,7 @@ export default async function Page () {
   const { docs } = await getHistory();
   return (
     <main>
-      <CartList docs={docs}/>
+      <CartList docs={docs[0]?.products}/>
     </main>
   );
 }

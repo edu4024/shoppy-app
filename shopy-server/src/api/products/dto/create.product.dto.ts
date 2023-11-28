@@ -61,3 +61,8 @@ export class ProductDto extends CreateProductDto {
   @IsString()
   imageUrl: string;
 }
+
+export class CartProductDto extends ProductDto {
+  @IsNumber()
+  desiredQuantity: number;
+}

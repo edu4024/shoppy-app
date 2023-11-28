@@ -16,7 +16,10 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductService } from './product.service';
-import { CreateProductDto, ProductDto } from './dto/create.product.dto';
+import {
+  CartProductDto,
+  CreateProductDto,
+} from './dto/create.product.dto';
 import { UserId } from '../../decorators/getUserId.decorator';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FindProductByIdDto, FindProductDto } from './dto/find.product.dto';
@@ -178,8 +181,8 @@ export class ProductController {
   @Post('/checkout')
   @HttpCode(200)
   @ApiConsumes('application/json')
-  @ApiBody({ type: [ProductDto] })
-  async checkout(@Body() cartProducts: ProductDto[], @UserId() userId) {
+  @ApiBody({ type: [CartProductDto] })
+  async checkout(@Body() cartProducts: CartProductDto[], @UserId() userId) {
     try {
       return this.productService.checkout(cartProducts, userId);
     } catch (err) {

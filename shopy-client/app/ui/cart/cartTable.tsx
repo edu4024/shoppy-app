@@ -27,11 +27,35 @@ enum Currency {
 * */
 export default function CartTable ({ products }: ProductDto[]) {
   const [cartState, updateCartState] = useCart();
+  const deleteProduct = (_id: string) => {
+    updateCartState(cartState.filter(item => item._id !== _id));
+  };
+  const addQuantity = (_id: string) => {
+    const productsList = [...cartState];
+    productsList.find(item => {
+      if (item._id === _id) {
+        if (item.desiredQuantity + 1 <= item.quantity) {
+          item.desiredQuantity += 1;
+          return item;
+        }
 
-  const deleteProduct = (id: string) => {
-    updateCartState(cartState.filter(item => item.product._id !== id));
+      }
+    });
+    updateCartState(productsList);
   };
 
+  const reduceQuantity = (_id: string) => {
+    const productsList = [...cartState];
+    productsList.find(item => {
+      if (item._id === _id) {
+        if (item.desiredQuantity - 1 > 0) {
+          item.desiredQuantity -= 1;
+          return item;
+        }
+      }
+    });
+    updateCartState(productsList);
+  };
   const rows = products.map((product) => {
     const {
       name,
@@ -39,8 +63,8 @@ export default function CartTable ({ products }: ProductDto[]) {
       currency,
       imageUrl = '/Product.png',
       _id,
-      quantity,
-      date
+      date,
+      desiredQuantity
     } = product;
     return (
       <Table.Tr key={_id}>
@@ -55,17 +79,17 @@ export default function CartTable ({ products }: ProductDto[]) {
                 alt="decrease quantity"
                 h={32}
                 w={32}
-                onClick={() => {}}
+                onClick={() => reduceQuantity(_id)}
               />
               <Text>
-                {quantity}
+                {desiredQuantity}
               </Text>
               <Image
                 src="/Plus.svg"
                 alt="increase quantity"
                 h={32}
                 w={32}
-                onClick={() => {}}
+                onClick={() => addQuantity(_id)}
               />
             </Group>
           ): (
