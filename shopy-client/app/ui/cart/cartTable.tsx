@@ -9,7 +9,7 @@ import { useCart } from '@/app/src/providers/CartProvider';
 import { usePathname } from 'next/navigation';
 import { ProductDto } from '@/app/src/dto/products.dto';
 
-export default function CartList ({ docs }: any) {
+export default function CartTable ({ docs }: any) {
   const pathname = usePathname();
   const [cartState, updateCartState] = useCart();
 

@@ -1,5 +1,5 @@
 'use client';
-import CartList from '@/app/ui/cart/cartList';
+import CartTable from '@/app/ui/cart/cartTable';
 import CheckOut from '@/app/ui/cart/checkOut';
 import { useCart } from '@/app/src/providers/CartProvider';
 
@@ -8,7 +8,7 @@ export default function Page () {
   return (
     <main>
       <CheckOut/>
-      <CartList docs={cart}/>
+      <CartTable docs={cart}/>
     </main>
   );
 }
